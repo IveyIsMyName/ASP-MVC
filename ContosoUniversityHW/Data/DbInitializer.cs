@@ -1,17 +1,17 @@
-﻿using ContosoUniversity.Models;
+﻿using ContosoUniversityHW.Models;
 using System;
 using System.Linq;
 
-namespace ContosoUniversity.Data
+namespace ContosoUniversityHW.Data
 {
 	public static class DbInitializer
 	{
-		public static void Initialize(UniversityContext context)
+		public static void Initialize(UniversityContextHW context)
 		{
 			context.Database.EnsureCreated();
 
 			// Look for any students.
-			if (context.Students.Any())
+			if (context.Courses.Any())
 			{
 				return;   // DB has been seeded
 			}
@@ -32,10 +32,6 @@ namespace ContosoUniversity.Data
 			//	context.Students.Add(s);
 			//}
 			//context.SaveChanges();
-			if (context.Courses.Any())
-			{
-				return;   // DB has been seeded
-			}
 
 			var courses = new Course[]
 			{
@@ -47,11 +43,11 @@ namespace ContosoUniversity.Data
 			new Course{CourseID=2021,Title="Composition",Credits=3},
 			new Course{CourseID=2042,Title="Literature",Credits=4}
 			};
-			//foreach (Course c in courses)
-			//{
-			//	context.Courses.Add(c);
-			//}
-			//context.SaveChanges();
+			foreach (Course c in courses)
+			{
+				context.Courses.Add(c);
+			}
+			context.SaveChanges();
 
 			var enrollments = new Enrollment[]
 			{

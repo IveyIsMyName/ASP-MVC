@@ -11,7 +11,7 @@ namespace ContosoUniversity.Data
 			context.Database.EnsureCreated();
 
 			// Look for any students.
-			if (context.Students.Any())
+			if (context.Courses.Any())
 			{
 				return;   // DB has been seeded
 			}
@@ -27,16 +27,12 @@ namespace ContosoUniversity.Data
 			new Student{FirstName="Laura",LastName="Norman",EnrollmentDate=DateTime.Parse("2003-09-01")},
 			new Student{FirstName="Nino",LastName="Olivetto",EnrollmentDate=DateTime.Parse("2005-09-01")}
 			};
-			//foreach (Student s in students)
-			//{
-			//	context.Students.Add(s);
-			//}
-			//context.SaveChanges();
-			if (context.Courses.Any())
+			foreach (Student s in students)
 			{
-				return;   // DB has been seeded
+				context.Students.Add(s);
 			}
-
+			context.SaveChanges();
+			
 			var courses = new Course[]
 			{
 			new Course{CourseID=1050,Title="Chemistry",Credits=3},
@@ -47,11 +43,11 @@ namespace ContosoUniversity.Data
 			new Course{CourseID=2021,Title="Composition",Credits=3},
 			new Course{CourseID=2042,Title="Literature",Credits=4}
 			};
-			//foreach (Course c in courses)
-			//{
-			//	context.Courses.Add(c);
-			//}
-			//context.SaveChanges();
+			foreach (Course c in courses)
+			{
+				context.Courses.Add(c);
+			}
+			context.SaveChanges();
 
 			var enrollments = new Enrollment[]
 			{

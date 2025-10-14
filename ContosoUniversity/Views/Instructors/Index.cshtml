@@ -101,12 +101,8 @@
         @foreach(Enrollment enrollment in Model.Enrollments)
         {
             <tr>
-                <td>
-                    @enrollment.Student.FullName
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => enrollment.Grade)
-                </td>
+                <td>@enrollment.Student.FullName</td>
+                <td>@Html.DisplayFor(modelItem => enrollment.Grade)</td>        
             </tr>
         }
     </table>

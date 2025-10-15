@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Academy.Migrations
 {
     [DbContext(typeof(AcademyContext))]
-    [Migration("20251014233956_mssql.onprem_migration_312")]
-    partial class mssqlonprem_migration_312
+    [Migration("20251015085348_mssql.onprem_migration_816")]
+    partial class mssqlonprem_migration_816
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,6 +51,9 @@ namespace Academy.Migrations
                     b.Property<byte?>("direction")
                         .HasColumnType("tinyint");
 
+                    b.Property<byte>("direction_id")
+                        .HasColumnType("tinyint");
+
                     b.Property<string>("group_name")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -64,7 +67,7 @@ namespace Academy.Migrations
 
                     b.HasKey("group_id");
 
-                    b.HasIndex("direction");
+                    b.HasIndex("direction_id");
 
                     b.ToTable("Groups", (string)null);
                 });
@@ -76,9 +79,6 @@ namespace Academy.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("stud_id"));
-
-                    b.Property<int>("GroupID")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("birth_date")
                         .HasColumnType("datetime2");
@@ -92,9 +92,12 @@ namespace Academy.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("group_id")
+                    b.Property<int>("group")
                         .HasColumnType("int")
                         .HasColumnName("group");
+
+                    b.Property<int>("group_id")
+                        .HasColumnType("int");
 
                     b.Property<string>("last_name")
                         .IsRequired()
@@ -170,21 +173,22 @@ namespace Academy.Migrations
                 {
                     b.HasOne("Academy.Models.Direction", "Direction")
                         .WithMany("Groups")
-                        .HasForeignKey("direction")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("direction_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Direction");
                 });
 
             modelBuilder.Entity("Academy.Models.Student", b =>
                 {
-                    b.HasOne("Academy.Models.Group", "Groups")
+                    b.HasOne("Academy.Models.Group", "Group")
                         .WithMany("Students")
                         .HasForeignKey("group_id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Groups");
+                    b.Navigation("Group");
                 });
 
             modelBuilder.Entity("Academy.Models.Direction", b =>

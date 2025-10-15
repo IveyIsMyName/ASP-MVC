@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Academy.Migrations
 {
     /// <inheritdoc />
-    public partial class mssqlonprem_migration_312 : Migration
+    public partial class mssqlonprem_migration_816 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,17 +53,18 @@ namespace Academy.Migrations
                     group_name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     direction = table.Column<byte>(type: "tinyint", nullable: true),
                     weekdays = table.Column<byte>(type: "tinyint", nullable: true),
-                    start_time = table.Column<TimeSpan>(type: "time", nullable: true)
+                    start_time = table.Column<TimeSpan>(type: "time", nullable: true),
+                    direction_id = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Groups", x => x.group_id);
                     table.ForeignKey(
-                        name: "FK_Groups_Directions_direction",
-                        column: x => x.direction,
+                        name: "FK_Groups_Directions_direction_id",
+                        column: x => x.direction_id,
                         principalTable: "Directions",
                         principalColumn: "direction_id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,28 +81,28 @@ namespace Academy.Migrations
                     phone = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: true),
                     photo = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     group = table.Column<int>(type: "int", nullable: false),
-                    GroupID = table.Column<int>(type: "int", nullable: false)
+                    group_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Students", x => x.stud_id);
                     table.ForeignKey(
-                        name: "FK_Students_Groups_group",
-                        column: x => x.group,
+                        name: "FK_Students_Groups_group_id",
+                        column: x => x.group_id,
                         principalTable: "Groups",
                         principalColumn: "group_id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Groups_direction",
+                name: "IX_Groups_direction_id",
                 table: "Groups",
-                column: "direction");
+                column: "direction_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_group",
+                name: "IX_Students_group_id",
                 table: "Students",
-                column: "group");
+                column: "group_id");
         }
 
         /// <inheritdoc />

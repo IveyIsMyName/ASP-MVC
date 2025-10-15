@@ -9,85 +9,85 @@ using Academy.Models;
 
 namespace Academy.Controllers
 {
-    public class StudentsController : Controller
+    public class DirectionsController : Controller
     {
         private readonly AcademyContext _context;
 
-        public StudentsController(AcademyContext context)
+        public DirectionsController(AcademyContext context)
         {
             _context = context;
         }
 
-        // GET: Students
+        // GET: Directions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Students.ToListAsync());
+            return View(await _context.Directions.ToListAsync());
         }
 
-        // GET: Students/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Directions/Details/5
+        public async Task<IActionResult> Details(byte? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.stud_id == id);
-            if (student == null)
+            var direction = await _context.Directions
+                .FirstOrDefaultAsync(m => m.direction_id == id);
+            if (direction == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(direction);
         }
 
-        // GET: Students/Create
+        // GET: Directions/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Students/Create
+        // POST: Directions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("stud_id,last_name,first_name,middle_name,birth_date,email,phone,photo,group")] Student student)
+        public async Task<IActionResult> Create([Bind("direction_id,direction_name")] Direction direction)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(student);
+                _context.Add(direction);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(direction);
         }
 
-        // GET: Students/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: Directions/Edit/5
+        public async Task<IActionResult> Edit(byte? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
+            var direction = await _context.Directions.FindAsync(id);
+            if (direction == null)
             {
                 return NotFound();
             }
-            return View(student);
+            return View(direction);
         }
 
-        // POST: Students/Edit/5
+        // POST: Directions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("stud_id,last_name,first_name,middle_name,birth_date,email,phone,photo,group")] Student student)
+        public async Task<IActionResult> Edit(byte id, [Bind("direction_id,direction_name")] Direction direction)
         {
-            if (id != student.stud_id)
+            if (id != direction.direction_id)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace Academy.Controllers
             {
                 try
                 {
-                    _context.Update(student);
+                    _context.Update(direction);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentExists(student.stud_id))
+                    if (!DirectionExists(direction.direction_id))
                     {
                         return NotFound();
                     }
@@ -112,45 +112,45 @@ namespace Academy.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(direction);
         }
 
-        // GET: Students/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Directions/Delete/5
+        public async Task<IActionResult> Delete(byte? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.stud_id == id);
-            if (student == null)
+            var direction = await _context.Directions
+                .FirstOrDefaultAsync(m => m.direction_id == id);
+            if (direction == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(direction);
         }
 
-        // POST: Students/Delete/5
+        // POST: Directions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(byte id)
         {
-            var student = await _context.Students.FindAsync(id);
-            if (student != null)
+            var direction = await _context.Directions.FindAsync(id);
+            if (direction != null)
             {
-                _context.Students.Remove(student);
+                _context.Directions.Remove(direction);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StudentExists(int id)
+        private bool DirectionExists(byte id)
         {
-            return _context.Students.Any(e => e.stud_id == id);
+            return _context.Directions.Any(e => e.direction_id == id);
         }
     }
 }

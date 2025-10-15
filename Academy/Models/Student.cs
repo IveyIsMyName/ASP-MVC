@@ -42,12 +42,12 @@ namespace Academy.Models
 		public byte[]? photo { get; set; }
 
 		[Display(Name = "Группа")]
-		
-		public int group_id {  get; set; }
+		[Column("group")]
+		public int group {  get; set; }
 
 		//Nav prop:
-		[ForeignKey("GroupID")]
-		public Group Groups {  get; set; }
+		[ForeignKey("group")]
+		public Group Group {  get; set; }
 
 		//Calc prop:
 		[Display(Name ="Полное имя")]

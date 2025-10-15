@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Academy.Models
 {
@@ -14,7 +15,8 @@ namespace Academy.Models
 		public string? group_name { get; set; }
 
 		[Display(Name = "Направление")]
-		public byte? direction { get; set; }
+		[Column("direction")]
+		public byte direction { get; set; }
 
 		[Display(Name = "Дни недели")]
 		public byte? weekdays { get; set; }

@@ -12,17 +12,27 @@ namespace Academy.Controllers
     public class StudentsController : Controller
     {
         private readonly AcademyContext _context;
-
-        public StudentsController(AcademyContext context)
+		private readonly int _pageSize = 10; // Количество элементов на странице
+		public StudentsController(AcademyContext context)
         {
             _context = context;
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
-            return View(await _context.Students.ToListAsync());
-        }
+			var pageIndex = pageNumber ?? 1;
+
+			var students = _context.Students
+				.Include(s => s.Group)
+				.OrderBy(s => s.last_name); // Сортировка для пагинации
+
+			var paginatedStudents = await PaginatedList<Student>.CreateAsync(
+				students.AsNoTracking(), pageIndex, _pageSize);
+
+			return View(paginatedStudents);
+			//return View(await _context.Students.ToListAsync());
+		}
 
         // GET: Students/Details/5
         public async Task<IActionResult> Details(int? id)
